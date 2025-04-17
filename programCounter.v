@@ -16,10 +16,10 @@
 */
 
 module Program_Counter(
-        input                 clk,       // Clock signal
-        input                 reset,     // Active-high reset signal
-        input          [31:0] PC_in,     // 32-bit input for the next instruction address
-        output reg     [31:0] PC_out     // 32-bit output for the current PC value
+        input             clk,       // Clock signal
+        input             reset,     // Active-high reset signal
+        input      [31:0] PC_in,     // 32-bit input for the next instruction address
+        output     [31:0] PC_out     // 32-bit output for the current PC value
 );
         wire [31:0] PC_out_wire;
         wire [31:0] mux_out; // Output of the multiplexer
@@ -41,7 +41,5 @@ module Program_Counter(
             .QN()               // Unused complement output
         );
 
-        always @(*) begin
-            PC_out = PC_out_wire;
-        end
+        assign PC_out = PC_out_wire;
 endmodule
