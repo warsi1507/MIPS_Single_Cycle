@@ -148,15 +148,15 @@ module mux_32_1_32bit (
 endmodule
 
 module Register_File (
-    input wire [4:0] read_reg1,   // Read register 1 address
-    input wire [4:0] read_reg2,   // Read register 2 address
-    input wire [4:0] write_reg,   // Write register address
-    input wire [31:0] write_data, // Data to write
-    input wire write_en,          // Write enable signal
-    input wire clk,               // Clock signal
-    input wire rst,               // Asynchronous reset
-    output wire [31:0] read_data1, // Data from read register 1
-    output wire [31:0] read_data2  // Data from read register 2
+    input wire [4:0] read_reg1,   
+    input wire [4:0] read_reg2,   
+    input wire [4:0] write_reg,   
+    input wire [31:0] write_data, 
+    input wire write_en,          
+    input wire clk,              
+    input wire rst,              
+    output wire [31:0] read_data1,
+    output wire [31:0] read_data2 
 );
 
     // 32 registers, each 32 bits wide

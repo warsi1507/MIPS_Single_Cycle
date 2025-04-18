@@ -16,29 +16,29 @@
 */
 
 module Program_Counter(
-        input             clk,       // Clock signal
-        input             reset,     // Active-high reset signal
-        input      [31:0] PC_in,     // 32-bit input for the next instruction address
-        output     [31:0] PC_out     // 32-bit output for the current PC value
+        input             clk,       
+        input             reset,     
+        input      [31:0] PC_in,     
+        output     [31:0] PC_out    
 );
         wire [31:0] PC_out_wire;
-        wire [31:0] mux_out; // Output of the multiplexer
+        wire [31:0] mux_out;
 
         // Instantiate the 2-to-1 multiplexer
         mux_2_1_32 mux_inst (
-                .sel(reset),         // Select signal (reset acts as the select signal)
-                .in0(PC_in),         // Input 0 (next instruction address)
-                .in1(32'h00000000),  // Input 1 (reset value)
-                .out(mux_out)        // Output of the multiplexer
+                .sel(reset),         
+                .in0(PC_in),         
+                .in1(32'h00000000),  
+                .out(mux_out)        
         );
 
         // Instantiate the register
         register_32bit reg_inst (
-            .D(mux_out),        // Data input
-            .CLK(clk),          // Clock input
-            .RST(reset),        // Reset input
-            .Q(PC_out_wire),    // Output
-            .QN()               // Unused complement output
+            .D(mux_out),        
+            .CLK(clk),          
+            .RST(reset),        
+            .Q(PC_out_wire),  
+            .QN()             
         );
 
         assign PC_out = PC_out_wire;

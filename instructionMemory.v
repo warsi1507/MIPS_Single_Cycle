@@ -43,7 +43,7 @@ module Instruction_Memory (
 
     // Word-aligned address fetch
     always @(posedge clk) begin
-        instruction_out = memory[read_address[8:2]];  // 7-bit index (128 entries)
+        instruction_out = memory[read_address[8:2]];
     end
 
 endmodule
