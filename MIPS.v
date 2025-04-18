@@ -3,7 +3,6 @@ module MIPS_TOP(
     input reset      
 );
 
-    // Wires to connect Program_Counter and Instruction_Memory
     wire [31:0] PC_out;          // Output of Program_Counter
     wire [31:0] instruction;     // Output of Instruction_Memory
     wire [4:0]  reg_write_addr;  // address to write in register file
@@ -12,7 +11,9 @@ module MIPS_TOP(
     wire [31:0] branch_target_addr;     // Target address for branching
     wire [31:0] PC_plus_4;       // Wire to hold the result of PC + 4 operation
     wire [31:0] PC_in;           // next PC value
-
+    wire [31:0] reg_read_data1;  // Data read from register 1
+    wire [31:0] reg_read_data2;  // Data read from register 2
+    wire [31:0] alu_input2;      // output of mux to select between read_data2 and immediate value
 
     // Instantiate Program_Counter
     Program_Counter PC (
@@ -53,8 +54,8 @@ module MIPS_TOP(
         .write_en(), // TODO regWrite from main controller
         .clk(clk),
         .rst(reset),
-        .read_data1(), // TODO for ALU
-        .read_data2() // TODO for mux -> ALU
+        .read_data1(reg_read_data1),
+        .read_data2(reg_read_data2)
     );
 
     // Instantiate Sign-Extender
@@ -83,4 +84,22 @@ module MIPS_TOP(
         .sel(), // TODO Branch & zero (main ctrl and ALU)
         .out(PC_in)
     );
+
+    // Instantiate ALU 
+    mux_2_1_32 alu_in_mux(
+        .in0(reg_read_data2),
+        .in1(extended_value),
+        .sel(), // TODO ALUSrc from main control
+        .out(alu_input2)
+    );
+
+    ALU_32_bit ALU(
+        .A(reg_read_data1),
+        .B(alu_input2),
+        .ctrl(), // TODO ALU control
+        .result(), // TODO send to data_memory
+        .zero(), // TODO send to and with branch from main control
+        .overflow() // might use as response flag in future
+    );
+
 endmodule
