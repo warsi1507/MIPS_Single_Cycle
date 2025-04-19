@@ -37,9 +37,7 @@ module Program_Counter(
             .D(mux_out),        
             .CLK(clk),          
             .RST(reset),        
-            .Q(PC_out_wire),  
+            .Q(PC_out),  
             .QN()             
         );
-
-        assign PC_out = PC_out_wire;
 endmodule

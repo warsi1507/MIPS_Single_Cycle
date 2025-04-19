@@ -1,8 +1,8 @@
 # MIPS_Single_Cycle
 
 ```shell
-    iverilog -o mips_sim *.v .\common\*.v
+    iverilog -o .\results\mips_sim *.v .\common\*.v
 ```
 ```shell
-    vvp .\mips_sim
+    vvp .\results\mips_sim > .\results\output.txt
 ```

@@ -113,4 +113,5 @@ module Data_Memory (
     always @(negedge clk ) begin
         ReadData <= tri_state_out;
     end
+    
 endmodule

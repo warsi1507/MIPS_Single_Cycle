@@ -17,6 +17,7 @@ module MIPS_TOP(
     wire [31:0] branch_target_addr;     // Target address for branching
     wire [31:0] jump_target_addr;       // Target address for jumping
     wire [31:0] jump_branch_mux;
+    wire [31:0] jump_reg_mux_in;
 
     wire [31:0] reg_read_data1;         // Data read from register 1
     wire [31:0] reg_read_data2;         // Data read from register 2
@@ -29,12 +30,13 @@ module MIPS_TOP(
     wire [31:0] write_data_reg;         // final data to be written in register file
 
     // Wires for control unit
-    wire RegDataJ, RegDst, RegDstJ, Jump, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
+    wire JumpR, RegDataJ, RegDst, RegDstJ, Jump, Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
     wire [1:0]  ALUOp;
 
     // Instantiate Control Unit
     Control_Unit CU (
         .opcode(instruction[31:26]),
+        .JumpR(JumpR),
         .RegDataJ(RegDataJ),
         .RegDst(RegDst),
         .RegDstJ(RegDstJ),
@@ -68,7 +70,6 @@ module MIPS_TOP(
 
     // Instantiate Instruction_Memory
     Instruction_Memory IM (
-        .clk(clk),
         .read_address(PC_out),
         .instruction_out(instruction)
     );
@@ -140,6 +141,12 @@ module MIPS_TOP(
         .in0(branch_target_addr),
         .in1(jump_target_addr),
         .sel(Jump),
+        .out(jump_reg_mux_in)
+    );
+    mux_2_1_32 pc_in_mux3 (
+        .in0(jump_reg_mux_in),
+        .in1(reg_read_data1),
+        .sel(JumpR),
         .out(PC_in)
     );
 
@@ -189,10 +196,4 @@ module MIPS_TOP(
         .sel(RegDataJ),
         .out(write_data_reg)
     );
-
-    // Monitor signal for PC_out
-    always @(posedge clk) begin
-        $display("PC_out: %h", PC_out);
-    end
-
 endmodule

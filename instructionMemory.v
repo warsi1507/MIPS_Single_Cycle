@@ -21,7 +21,6 @@
     -----------------------------------------------------------------------------
 */
 module Instruction_Memory (
-    input wire        clk,
     input wire [31:0] read_address,
     output reg [31:0] instruction_out
 );
@@ -32,9 +31,8 @@ module Instruction_Memory (
     end
 
     // Word-aligned address fetch
-    always @(posedge clk) begin
-        instruction_out = memory[read_address[8:2]];
+    always @(*) begin
+        instruction_out <= memory[read_address[8:2]];
     end
 
-    
 endmodule
