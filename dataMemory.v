@@ -101,7 +101,16 @@ module Data_Memory (
         end
     endgenerate
 
+    // Tri-state buffer for 32-bit data using bufif1 gates
+    wire [31:0] tri_state_out;
+    genvar j;
+    generate
+        for (j = 0; j < 32; j = j + 1) begin
+            bufif1(tri_state_out[j], memory[address[8:2]][j], MemRead);
+        end
+    endgenerate
+
     always @(negedge clk ) begin
-        ReadData <= memory[address[8:2]];
+        ReadData <= tri_state_out;
     end
 endmodule
