@@ -46,7 +46,7 @@ module MIPS_tb;
         $finish;
     end
 
-    // Monitor instruction on posedge of clk
+    // Monitor on posedge of clk
     always @(posedge clk) begin
         $display("\ninstruction: %h | PC-in: %h | PC-out: %h | ALU_zero: %b", uut.instruction, uut.PC_in, uut.PC_out, uut.alu_zero);
         $display("Register File Contents:");
